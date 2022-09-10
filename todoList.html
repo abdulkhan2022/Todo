@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO Do List Versione 2</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;1,700&display=swap');
+
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #181824;
+            /* height: 100vh; */
+            width: 100vw;
+            padding-top: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        header {
+            font-size: 60px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+
+        .textarea {
+            margin: 50px 0px;
+            background-color: #25273C;
+            width: 500px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            padding: 0px 30px;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        #new-task-input {
+            width: 80%;
+            background-color: #25273C;
+            border: none;
+            padding: 20px 10px;
+            font-size: 20px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 700;
+            color: white;
+            border: none;
+            outline: none;
+        }
+
+        #add-task-btn {
+            color: #D2D3E2;
+            background: none;
+            border: none;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .tasks {
+            background-color: #25273C;
+            /* height: 5vh; */
+            width: 500px;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            padding: 10px 10px;
+            color: #D2D3E2;
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+
+
+
+        .material-symbols-outlined {
+            font-size: 30px;
+            font-weight: 900;
+            cursor: pointer;
+            margin: 0px 5px;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px;
+            padding: 0px 10px;
+            border-radius: 5px;
+            border: 1px solid #181824;
+            background-color: #363a5c;
+            width: 100%;
+        }
+
+        #task-input-el {
+            border: none;
+            outline: none;
+            width: 340px;
+            background-color: #363a5c;
+            border: none;
+            padding: 20px 10px;
+            font-size: 20px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 700;
+            color: white;
+        }
+
+        .new-task-input-class {
+            border: none;
+            outline: none;
+            width: 340px;
+            background-color: #363a5c;
+            border: none;
+            padding: 20px 10px;
+            font-size: 20px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 700;
+            color: white;
+        }
+        @media only screen and  (max-width: 600px) {
+            .textarea{
+                width: 90%;
+            }
+            .tasks{
+                width: 90%;
+            }
+            .new-task-input-class{
+                width: 75%;
+            }
+        }
+        p{
+            font-size: .6rem;
+            text-align: center;
+            /* display: inline-block; */
+            text-transform: uppercase;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>TODO<p>Created by Abdul</p></header>
+
+    <form class="textarea">
+        <input type="text" name="text" id="new-task-input" placeholder="Create a new todo...">
+        <button type="submit" id="add-task-btn"> Add</button>
+    </form>
+    <div class="tasks" id="tasks">
+        <!-- <div class="task" id="task">
+            <div class="content">
+                <input type="text" name="task-name-input" id="task-input-el" readonly>
+            </div>
+            <div class="action">
+                <span class="material-symbols-outlined" id="edit-el">edit</span>
+                <span class="material-symbols-outlined" id="check-el">check</span>
+            </div>
+        </div> -->
+    </div>
+
+    <script>
+        let localStoragedata = []
+        window.addEventListener('load', () => {
+            let allTasks = document.querySelector('#tasks')
+            let addTasksBtn = document.querySelector('#add-task-btn')
+            let new_task_input = document.querySelector('#new-task-input')
+            let parsedData = JSON.parse(localStorage.getItem("tasks"))
+
+
+            const addAtask = (todoValue) => {
+                let task = todoValue;
+
+                let task_el = document.createElement('div')
+                task_el.classList.add('task')
+                task_el.id = 'task'
+
+                let task_content_el = document.createElement('div')
+                task_el.classList.add = 'content'
+
+                let task_input_el = document.createElement('input')
+                task_input_el.classList.add('new-task-input-class')
+                task_input_el.type = 'text'
+                task_input_el.name = 'task_input_el'
+                task_input_el.value = task;
+                task_input_el.setAttribute('readonly', 'readonly')
+
+                task_content_el.appendChild(task_input_el)
+                task_el.appendChild(task_content_el)
+
+                let task_action_el = document.createElement('div')
+                // task_el.classList.add('action')
+
+                let task_edit_el = document.createElement('span')
+                task_edit_el.classList.add('material-symbols-outlined')
+                task_edit_el.innerText = "edit"
+
+                let task_complete_el = document.createElement('span')
+                task_complete_el.classList.add('material-symbols-outlined')
+                task_complete_el.innerText = "check"
+
+                task_action_el.appendChild(task_edit_el)
+                task_action_el.appendChild(task_complete_el)
+
+                task_el.appendChild(task_action_el)
+
+                allTasks.appendChild(task_el)
+
+                new_task_input.value = ""
+
+
+                task_edit_el.addEventListener('click', (e) => {
+                    if (task_edit_el.innerText.toLowerCase() == "edit") {
+                        task_edit_el.innerText = "save"
+                        task_input_el.removeAttribute('readonly')
+                        task_input_el.focus()
+                        task_el.style.backgroundColor = "#006400"
+                        task_input_el.style.backgroundColor = "#006400"
+
+                    } else if (task_edit_el.innerText.toLowerCase() == "save") {
+                        task_edit_el.setAttribute('readonly', 'readonly')
+                        task_edit_el.innerText = "edit"
+                        task_el.style.backgroundColor = "#363a5c"
+                        task_input_el.style.backgroundColor = "#363a5c"
+
+                    }
+                })
+
+                task_complete_el.addEventListener("click", (e) => {
+                    allTasks.removeChild(task_el)
+                    
+                    console.log(e)
+
+                    // saving to local storage
+                    // localStoragedata.push(task_input_el.value)
+                    localStorage.setItem("tasks", JSON.stringify(localStoragedata))
+                })
+
+                
+                localStoragedata.push(task_input_el.value)
+                localStorage.setItem("tasks", JSON.stringify(localStoragedata))
+            }
+
+            if (parsedData && parsedData.length) {
+                // console.log("LocalStorage is not Empty")
+                for (let i = 0; i < parsedData.length; i++) {
+                    addAtask(parsedData[i])
+                }
+            }
+            else {
+                console.log("Local Storage is Empty")
+                
+            }
+
+            addTasksBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                addAtask(new_task_input.value);
+            })
+
+        })
+    </script>
+</body>
+
+</html>
